@@ -1,8 +1,11 @@
-﻿using NotificationSystem.Interfaces;
-using NotificationSystem.Services;
+﻿using NotificationSystem.Services;
+using NotificationSystem.Models;
+using NotificationSystem.Interfaces;
 
 INotificationService emailService = new EmailNotificationService();
-emailService.Send("alice.green@example.com", "Hello Alice, this is a test email!");
+User user1 = new User("Alice Green", "alice.green@example.com", emailService);
+user1.Notify("Hello Alice, this is a test email!");
 
 INotificationService smsService = new SmsNotificationService();
-smsService.Send("+37398672145", "Hello Bob, this is a test SMS!");
+User user2 = new User("Bob Brown", "+37398672145", smsService);
+user2.Notify("Hello Bob, this is a test SMS!");
