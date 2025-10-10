@@ -9,3 +9,11 @@ user1.Notify("Hello Alice, this is a test email!");
 INotificationService smsService = new SmsNotificationService();
 User user2 = new User("Bob Brown", "+37398672145", smsService);
 user2.Notify("Hello Bob, this is a test SMS!");
+
+
+NotificationManager manager = new NotificationManager();
+
+manager.AddNotificationService(new EmailNotificationService());
+manager.AddNotificationService(new SmsNotificationService());
+
+manager.NotifyAll("admin@example.com", "System maintenance scheduled at midnight!");
