@@ -35,6 +35,7 @@ The project is organized into the following packages:
 The Factory Method pattern is implemented through the `PizzaFactory` class, which provides a centralized way to create different types of pizzas.
 
 **Pizza Interface** (`domain/Pizza.java`):
+
 ```java
 package domain;
 
@@ -49,6 +50,7 @@ public interface Pizza {
 The `Pizza` interface defines the contract that all concrete pizza types must implement, ensuring consistency across different pizza varieties.
 
 **PizzaFactory Class** (`factory/PizzaFactory.java`):
+
 ```java
 package factory;
 
@@ -83,6 +85,7 @@ The factory centralizes the object creation logic, making it easy to add new piz
 **Concrete Pizza Implementations:**
 
 **Margherita Pizza** (`domain/Margherita.java`):
+
 ```java
 public class Margherita implements Pizza {
     @Override
@@ -108,6 +111,7 @@ public class Margherita implements Pizza {
 ```
 
 **Barbeque Pizza** (`domain/Barbeque.java`):
+
 ```java
 public class Barbeque implements Pizza {
     @Override
@@ -133,6 +137,7 @@ public class Barbeque implements Pizza {
 ```
 
 **Rancho Pizza** (`domain/Rancho.java`):
+
 ```java
 public class Rancho implements Pizza {
     @Override
@@ -158,6 +163,7 @@ public class Rancho implements Pizza {
 ```
 
 **Usage Example:**
+
 ```java
 Pizza rancho = PizzaFactory.createPizza("rancho");
 Pizza margherita = PizzaFactory.createPizza("margherita");
@@ -169,6 +175,7 @@ barbeque.prepare();
 ```
 
 **Benefits:**
+
 - **Encapsulation:** Object creation logic is encapsulated in one place
 - **Flexibility:** New pizza types can be added easily without changing client code
 - **Maintainability:** Changes to object creation only require modifications to the factory
@@ -183,6 +190,7 @@ barbeque.prepare();
 The Singleton pattern is implemented through the `OrderManager` class, which manages all pizza orders in the system.
 
 **OrderManager Class** (`singleton/OrderManager.java`):
+
 ```java
 package singleton;
 
@@ -209,7 +217,7 @@ public class OrderManager {
         orders.add(pizza);
         System.out.println("Order added: " + pizza.getClass().getSimpleName());
     }
-    
+
     public void showOrders(){
         System.out.println("Current Orders:");
         for(Pizza pizza : orders){
@@ -227,6 +235,7 @@ public class OrderManager {
 4. **Centralized State:** Maintains a single list of orders accessible throughout the application
 
 **Usage Example:**
+
 ```java
 OrderManager orderManager = OrderManager.getInstance();
 orderManager.addOrder(rancho);
@@ -236,6 +245,7 @@ orderManager.showOrders();
 ```
 
 **Benefits:**
+
 - **Controlled Access:** Single instance ensures consistent state across the application
 - **Global Access:** Easy access to the order manager from anywhere in the code
 - **Lazy Initialization:** Instance is created only when first requested
@@ -252,6 +262,7 @@ orderManager.showOrders();
 The Builder pattern is implemented through the `CustomPizzaBuilder` class, which allows step-by-step construction of custom pizzas with various toppings and options.
 
 **CustomPizzaBuilder Class** (`builder/CustomPizzaBuilder.java`):
+
 ```java
 package builder;
 
@@ -335,6 +346,7 @@ public class CustomPizzaBuilder {
 5. **Private Constructor:** Ensures objects can only be created through the builder
 
 **Usage Example:**
+
 ```java
 CustomPizzaBuilder customPizza = new CustomPizzaBuilder.PizzaBuilder()
         .setSize("Large")
@@ -344,11 +356,12 @@ CustomPizzaBuilder customPizza = new CustomPizzaBuilder.PizzaBuilder()
         .addExtraPepperoni()
         .addExtraOlives()
         .build();
-        
+
 customPizza.displayPizza();
 ```
 
 **Benefits:**
+
 - **Readability:** Code is easy to read and understand
 - **Flexibility:** Can create objects with different combinations of parameters
 - **Optional Parameters:** Handles multiple optional parameters elegantly
@@ -358,6 +371,7 @@ customPizza.displayPizza();
 ## Complete Demonstration
 
 **Main Class** (`client/Main.java`):
+
 ```java
 package client;
 
@@ -451,6 +465,7 @@ This combination demonstrates how different creational patterns can complement e
 3. **Builder Pattern:** Developed a flexible custom pizza builder that handles multiple optional parameters elegantly through method chaining.
 
 4. **Separation of Concerns:** Each pattern addresses a specific aspect of object creation:
+
    - Factory handles standard object creation
    - Singleton manages shared resource access
    - Builder handles complex object construction
@@ -470,16 +485,10 @@ This combination demonstrates how different creational patterns can complement e
 
 ## Conclusion
 
-This project successfully demonstrates the practical application of three fundamental creational design patterns in Java:
+This project successfully demonstrates the practical application of three fundamental creational design patterns in Java through a pizza ordering system:
 
-**Factory Method Pattern** provides a clean way to create objects without exposing the creation logic to the client. By centralizing pizza creation in the `PizzaFactory` class, we achieve flexibility and maintainability. Adding new pizza types is straightforward and doesn't require changes to existing client code.
+- **Factory Method Pattern** centralizes pizza creation, providing flexibility and easy extensibility for new pizza types
+- **Singleton Pattern** ensures single-instance order management, maintaining consistency across the application
+- **Builder Pattern** handles complex custom pizza construction with multiple optional parameters through a fluent interface
 
-**Singleton Pattern** ensures that the `OrderManager` class has only one instance throughout the application, providing a global point of access for order management. This guarantees consistency and prevents conflicts that could arise from multiple order managers.
-
-**Builder Pattern** elegantly handles the construction of complex custom pizza objects with many optional parameters. The fluent interface makes the code readable and intuitive, while the step-by-step construction process provides flexibility in creating different pizza configurations.
-
-These patterns work synergistically in the pizza ordering system, each addressing different aspects of object creation. The Factory Method handles standard pizzas, the Singleton manages orders centrally, and the Builder creates custom pizzas with specific requirements.
-
-Through this implementation, I have gained practical understanding of how creational design patterns contribute to better software architecture and why they are fundamental in object-oriented programming. The patterns help manage complexity, improve code organization, and provide proven solutions to common design problems.
-
-The pizza ordering system demonstrates that design patterns are not just theoretical concepts but practical tools that solve real-world software design challenges, leading to more maintainable, flexible, and scalable applications.
+These patterns work synergistically, each addressing different aspects of object creation. Through this implementation, I have gained practical understanding of how creational design patterns contribute to better software architecture, helping to manage complexity, improve code organization, and provide proven solutions to common design problems in object-oriented programming.
