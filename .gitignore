@@ -1,0 +1,57 @@
+# Compiled class files
+*.class
+
+# Output folders
+/out/
+build/
+target/
+bin/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+workspace.xml
+# optional: dacă vrei să păstrezi anumite setări, nu ignora tot .idea
+
+# VS Code
+.vscode/
+
+# Eclipse/other IDEs
+.classpath
+.project
+.settings/
+
+# Gradle / Maven
+.gradle/
+.gradle-cache/
+mvnw*
+mvnw.cmd
+.ora-deps/
+
+# Packages
+*.jar
+*.war
+*.ear
+
+# Logs and runtime files
+*.log
+logs/
+tmp/
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / secrets
+.env
+*.keystore
+*.jks
+
+# Node (if any)
+node_modules/
+
+# Ignore any local IDE or build output subfolders
+**/out/
+**/build/
