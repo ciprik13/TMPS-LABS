@@ -59,28 +59,44 @@ import domain.Barbeque;
 import domain.Margherita;
 import domain.Rancho;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public class PizzaFactory {
+    private static final Map<String, Supplier<Pizza>> pizzaMap = new HashMap<>();
+
+    static {
+        pizzaMap.put("rancho", Rancho::new);
+        pizzaMap.put("margherita", Margherita::new);
+        pizzaMap.put("barbeque", Barbeque::new);
+    }
+
     public static Pizza createPizza(String type) {
         if (type == null) {
+            System.out.println("Pizza type cannot be null");
             return null;
         }
 
-        switch(type.toLowerCase()){
-            case "rancho":
-                return new Rancho();
-            case "margherita":
-                return new Margherita();
-            case "barbeque":
-                return new Barbeque();
-            default:
-                System.out.println("Invalid pizza type");
-                return null;
+        Supplier<Pizza> pizzaSupplier = pizzaMap.get(type.toLowerCase());
+
+        if (pizzaSupplier != null) {
+            return pizzaSupplier.get();
+        } else {
+            System.out.println("Invalid pizza type: " + type);
+            return null;
         }
     }
 }
 ```
 
-The factory centralizes the object creation logic, making it easy to add new pizza types without modifying client code.
+The factory uses a **Map-based approach** with method references (`Supplier<Pizza>`) to associate pizza types with their constructors. This implementation provides several advantages:
+
+- **Better scalability:** Adding new pizza types only requires adding a single line in the static initializer block
+- **Cleaner code:** Eliminates lengthy switch statements that grow with each new pizza type
+- **O(1) lookup time:** HashMap provides constant-time access to pizza constructors
+- **More maintainable:** Separation of configuration (static block) from logic (createPizza method)
+- **Easier to extend:** New pizza types can be registered without modifying the core creation logic
 
 **Concrete Pizza Implementations:**
 
@@ -177,9 +193,11 @@ barbeque.prepare();
 **Benefits:**
 
 - **Encapsulation:** Object creation logic is encapsulated in one place
-- **Flexibility:** New pizza types can be added easily without changing client code
-- **Maintainability:** Changes to object creation only require modifications to the factory
+- **Flexibility:** New pizza types can be added easily by adding a single line to the Map
+- **Maintainability:** Changes to object creation only require modifications to the static initializer block
 - **Loose Coupling:** Clients depend on the Pizza interface, not concrete implementations
+- **Scalability:** Map-based approach scales better than switch statements for many types
+- **Performance:** O(1) lookup time using HashMap instead of sequential case comparisons
 
 ### 2. Singleton Pattern
 
