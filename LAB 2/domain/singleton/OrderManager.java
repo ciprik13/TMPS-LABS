@@ -1,4 +1,4 @@
-package singleton;
+package domain.singleton;
 
 import java.util.ArrayList;
 import java.util.List;

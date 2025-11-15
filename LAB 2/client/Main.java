@@ -1,9 +1,9 @@
 package client;
 
 import domain.Pizza;
-import factory.PizzaFactory;
-import builder.CustomPizzaBuilder;
-import singleton.OrderManager;
+import domain.builder.CustomPizzaBuilder;
+import domain.factory.PizzaFactory;
+import domain.singleton.OrderManager;
 
 public class Main {
     public static void main(String[] args) {

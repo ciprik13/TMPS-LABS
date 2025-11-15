@@ -1,4 +1,4 @@
-package builder;
+package domain.builder;
 
 public class CustomPizzaBuilder {
     private String size;
