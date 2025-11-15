@@ -1,7 +1,11 @@
+
 import domain.Pizza;
 import domain.factory.PizzaFactory;
 import domain.decorators.*;
 import domain.utilities.*;
+import domain.facade.PizzeriaFacade;
+
+import java.util.List;
 
 public class Main {
 
@@ -15,10 +19,10 @@ public class Main {
         Pizza margherita = PizzaFactory.createPizza("margherita");
 
         Pizza decorated = new ExtraCheese(
-                              new ExtraOlives(
-                                  new StuffedCrust(margherita)
-                              )
-                          );
+                                new ExtraOlives(
+                                    new StuffedCrust(margherita)
+                                )
+                           );
 
         decorated.prepare();
         decorated.bake();
@@ -35,5 +39,24 @@ public class Main {
 
         oven.preheat(220);
         oven.bake(rancho, 15);
+
+        // =====================
+        // 3) FACADE PATTERN
+        // =====================
+        System.out.println("\n=== FACADE PATTERN ===");
+
+        PizzeriaFacade facade = new PizzeriaFacade();
+
+        System.out.println("\n-- Simple order --");
+        facade.orderSimple("margherita");
+
+        System.out.println("\n-- Order with toppings --");
+        facade.orderWithToppings("rancho", List.of("cheese", "olives"));
+
+        System.out.println("\n-- Custom order --");
+        facade.orderCustom("Large", "Thin Crust", true, true, false);
+
+        System.out.println("\n-- All orders saved in OrderManager (Singleton) --");
+        facade.printOrders();
     }
 }
