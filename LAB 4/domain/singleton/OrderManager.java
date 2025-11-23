@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.Pizza;
+import domain.observer.OrderObserver;
 
 public class OrderManager {
     private static OrderManager instance;
 
     private List<Pizza> orders;
+    private List<OrderObserver> observers = new ArrayList<>();
 
     private OrderManager() {
         orders = new ArrayList<>();
@@ -21,9 +23,21 @@ public class OrderManager {
         return instance;
     }
 
+    public void addObserver(OrderObserver observer) {
+        observers.add(observer);
+    }
+
+    private void notifyOrderAdded(String orderName) {
+        for (OrderObserver observer : observers) {
+            observer.onOrderAdded(orderName);
+        }
+    }
+
     public void addOrder(Pizza pizza) {
         orders.add(pizza);
-        System.out.println("Order added: " + pizza.getClass().getSimpleName());
+        String name = pizza.getClass().getSimpleName();
+        System.out.println("Order added: " + name);
+        notifyOrderAdded(name);
     }
     
     public void showOrders(){
