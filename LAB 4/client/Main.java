@@ -1,9 +1,15 @@
-
-import domain.Pizza;
-import domain.factory.PizzaFactory;
-import domain.decorators.*;
-import domain.utilities.*;
 import domain.facade.PizzeriaFacade;
+import domain.singleton.OrderManager;
+
+// Observer
+import domain.observer.KitchenDisplayObserver;
+import domain.observer.BillingObserver;
+
+// Strategy
+import domain.strategy.BikeDeliveryStrategy;
+
+// Command
+import domain.command.*;
 
 import java.util.List;
 
@@ -11,52 +17,34 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // =====================
-        // 1) DECORATOR PATTERN
-        // =====================
-        System.out.println("=== DECORATOR PATTERN ===");
+        System.out.println("=== LAB 4 — BEHAVIORAL DESIGN PATTERNS ===");
 
-        Pizza margherita = PizzaFactory.createPizza("margherita");
+        // OBSERVER
+        OrderManager manager = OrderManager.getInstance();
+        manager.addObserver(new KitchenDisplayObserver());
+        manager.addObserver(new BillingObserver());
 
-        Pizza decorated = new ExtraCheese(
-                                new ExtraOlives(
-                                    new StuffedCrust(margherita)
-                                )
-                           );
-
-        decorated.prepare();
-        decorated.bake();
-        decorated.cut();
-        decorated.box();
-
-        // =====================
-        // 2) ADAPTER PATTERN
-        // =====================
-        System.out.println("\n=== ADAPTER PATTERN ===");
-
-        Pizza rancho = PizzaFactory.createPizza("rancho");
-        Oven oven = new LegacyOvenAdapter(new LegacyOven());
-
-        oven.preheat(220);
-        oven.bake(rancho, 15);
-
-        // =====================
-        // 3) FACADE PATTERN
-        // =====================
-        System.out.println("\n=== FACADE PATTERN ===");
-
+        // FACADE + STRATEGY
         PizzeriaFacade facade = new PizzeriaFacade();
+        facade.setDeliveryStrategy(new BikeDeliveryStrategy());
 
-        System.out.println("\n-- Simple order --");
-        facade.orderSimple("margherita");
+        // COMMAND PATTERN — USING YOUR COMMANDS
+        OrderInvoker invoker = new OrderInvoker();
 
-        System.out.println("\n-- Order with toppings --");
-        facade.orderWithToppings("rancho", List.of("cheese", "olives"));
+        System.out.println("\n-- Command: Simple Order --");
+        invoker.execute(new SimpleOrderCommand(facade, "margherita"));
 
-        System.out.println("\n-- Custom order --");
-        facade.orderCustom("Large", "Thin Crust", true, true, false);
+        System.out.println("\n-- Command: Order with Toppings --");
+        invoker.execute(new ToppingsOrderCommand(facade, "rancho", List.of("cheese", "olives")));
 
-        System.out.println("\n-- All orders saved in OrderManager (Singleton) --");
-        facade.printOrders();
+        System.out.println("\n-- Command: Custom Order --");
+        invoker.execute(new CustomOrderCommand(
+                facade,
+                "Large",
+                "Thin Crust",
+                true,   // cheese
+                true,   // pepperoni
+                false   // mushrooms
+        ));
     }
 }

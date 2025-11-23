@@ -1,4 +1,4 @@
-// package domain.factory;
+ package domain.factory;
 
 import domain.Pizza;
 import domain.Barbeque;
