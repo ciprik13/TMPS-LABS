@@ -7,12 +7,21 @@ import domain.singleton.OrderManager;
 import domain.utilities.*;
 import domain.builder.CustomPizza;
 
+import domain.strategy.DeliveryStrategy;
+import domain.strategy.PickupStrategy;
+
 import java.util.List;
 
 public class PizzeriaFacade {
 
     private final Oven oven;
     private final OrderManager orderManager;
+
+    private DeliveryStrategy deliveryStrategy = new PickupStrategy();
+
+    public void setDeliveryStrategy(DeliveryStrategy strategy) {
+        this.deliveryStrategy = strategy;
+    }
 
     public PizzeriaFacade() {
         this.oven = new LegacyOvenAdapter(new LegacyOven());
@@ -31,6 +40,8 @@ public class PizzeriaFacade {
         oven.bake(pizza, 15);
 
         orderManager.addOrder(pizza);
+
+        deliveryStrategy.deliver(pizza.getClass().getSimpleName());
 
         return pizza;
     }
@@ -58,6 +69,8 @@ public class PizzeriaFacade {
 
         orderManager.addOrder(pizza);
 
+        deliveryStrategy.deliver(pizza.getClass().getSimpleName());
+
         return pizza;
     }
 
@@ -71,10 +84,12 @@ public class PizzeriaFacade {
         if (pepperoni) builder.addExtraPepperoni();
         if (mushrooms) builder.addExtraMushrooms();
 
-    CustomPizza pizza = builder.build();
+        CustomPizza pizza = builder.build();
 
         System.out.println("\n[Custom Pizza Created]");
         pizza.displayPizza();
+
+        deliveryStrategy.deliver("CustomPizza");
 
         return pizza;
     }
